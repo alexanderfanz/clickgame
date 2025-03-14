@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+/* Add styles for fullscreen */
+:fullscreen {
+    background-color: #f0f0f0;
+}
+
+/* Webkit support */
+:-webkit-full-screen {
+    background-color: #f0f0f0;
+}
+
+/* Mozilla support */
+:-moz-full-screen {
+    background-color: #f0f0f0;
+}
+
+/* Microsoft support */
+:-ms-fullscreen {
+    background-color: #f0f0f0;
+}
+
+.ball {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    user-select: none;
+}
+
+#resetButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+}
+
+#fullscreenButton {
+    position: fixed;
+    top: 20px;
+    right: 140px;  /* Position it to the left of reset button */
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+}
+
+#resetButton:hover {
+    background-color: #45a049;
+}
+
+#fullscreenButton:hover {
+    background-color: #1976D2;
+}
+
+#homeLink {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+}
+
+#homeLink:hover {
+    background-color: #5E35B1;
+} 
