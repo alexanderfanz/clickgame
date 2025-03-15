@@ -2,6 +2,31 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: #f0f0f0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#gameArea {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 /* Add styles for fullscreen */
@@ -38,12 +63,23 @@ body {
     color: white;
     text-shadow: 1px 1px 2px black;
     user-select: none;
+    transform: translate(-50%, -50%);
+}
+
+#homeLink {
+    padding: 10px 20px;
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    margin-right: auto;
 }
 
 #resetButton {
-    position: fixed;
-    top: 20px;
-    right: 20px;
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
@@ -51,13 +87,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    z-index: 1000;
+    margin-left: 10px;
 }
 
 #fullscreenButton {
-    position: fixed;
-    top: 20px;
-    right: 140px;  /* Position it to the left of reset button */
     padding: 10px 20px;
     background-color: #2196F3;
     color: white;
@@ -65,7 +98,11 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    z-index: 1000;
+    margin-left: 10px;
+}
+
+#homeLink:hover {
+    background-color: #5E35B1;
 }
 
 #resetButton:hover {
@@ -74,24 +111,4 @@ body {
 
 #fullscreenButton:hover {
     background-color: #1976D2;
-}
-
-#homeLink {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background-color: #673AB7;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    z-index: 1000;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-}
-
-#homeLink:hover {
-    background-color: #5E35B1;
 } 

@@ -1,4 +1,4 @@
-const VERSION = '0.1.0';  // Semantic versioning (major.minor.patch)
+const VERSION = '0.2.0';  // Semantic versioning (major.minor.patch)
 const MAX_BALLS = 5;
 const BALL_SIZE = 60;
 let nextNumber = MAX_BALLS + 1;  // Track the next number to use
@@ -25,20 +25,21 @@ function getRandomColor() {
 }
 
 function getRandomPosition() {
-    const maxX = window.innerWidth - BALL_SIZE;
-    const maxY = window.innerHeight - BALL_SIZE;
+    const gameArea = document.getElementById('gameArea');
+    const rect = gameArea.getBoundingClientRect();
+    const maxX = rect.width - 2 * BALL_SIZE;
+    const maxY = rect.height - 2 * BALL_SIZE;
     return {
-        x: Math.floor(Math.random() * maxX),
-        y: Math.floor(Math.random() * maxY)
+        x: Math.floor(Math.random() * maxX + BALL_SIZE),
+        y: Math.floor(Math.random() * maxY + BALL_SIZE)
     };
 }
 
 function isOverlapping(position, existingBalls) {
     // Check if a position overlaps with any existing balls
     for (const ball of existingBalls) {
-        const ballRect = ball.getBoundingClientRect();
-        const ballX = ballRect.left;
-        const ballY = ballRect.top;
+        const ballX = parseInt(ball.style.left);
+        const ballY = parseInt(ball.style.top);
 
         // Calculate distance between centers
         const dx = position.x - ballX;
@@ -74,8 +75,10 @@ function getNonOverlappingPosition() {
 }
 
 function adjustBallPosition(ball) {
-    const maxX = window.innerWidth - BALL_SIZE;
-    const maxY = window.innerHeight - BALL_SIZE;
+    const gameArea = document.getElementById('gameArea');
+    const rect = gameArea.getBoundingClientRect();
+    const maxX = rect.width - BALL_SIZE;
+    const maxY = rect.height - BALL_SIZE;
     
     // Get current position
     let x = parseInt(ball.style.left);
@@ -112,14 +115,8 @@ function resetGame() {
     const balls = document.querySelectorAll('.ball');
     balls.forEach(ball => ball.remove());
     
-    // Reset the next number counter
-    nextNumber = MAX_BALLS + 1;
-    
-    // Create new initial balls
-    for (let i = 1; i <= MAX_BALLS; i++) {
-        const ball = createBall(i);
-        document.body.appendChild(ball);
-    }
+    // start a new game
+    newGame();
 }
 
 async function toggleFullScreen() {
@@ -179,6 +176,16 @@ document.addEventListener('msfullscreenchange', () => {
     updateFullscreenButtonText();
 });
 
+function newGame() {
+    const gameArea = document.getElementById('gameArea');
+
+    for (let i = 1; i <= MAX_BALLS; i++) {
+        const ball = createBall(i);
+        gameArea.appendChild(ball);
+    }
+    nextNumber = MAX_BALLS + 1;
+}
+
 function initializeGame() {
     // Log version information
     console.log('Ball Clicking Game v' + VERSION);
@@ -187,11 +194,9 @@ function initializeGame() {
     const homeLink = document.getElementById('homeLink');
     homeLink.href = getRootDomain();
 
-    // Create initial balls with sequential numbers 1 to MAX_BALLS
-    for (let i = 1; i <= MAX_BALLS; i++) {
-        const ball = createBall(i);
-        document.body.appendChild(ball);
-    }
+    const gameArea = document.getElementById('gameArea');
+
+    newGame();
 
     // Add reset button event listener
     document.getElementById('resetButton').addEventListener('click', resetGame);
@@ -199,8 +204,8 @@ function initializeGame() {
     // Add fullscreen button event listener
     document.getElementById('fullscreenButton').addEventListener('click', toggleFullScreen);
 
-    // Add click event listener to body for event delegation
-    document.body.addEventListener('click', (e) => {
+    // Add click event listener to game area for event delegation
+    gameArea.addEventListener('click', (e) => {
         if (e.target.classList.contains('ball')) {
             const balls = document.querySelectorAll('.ball');
             const numbers = Array.from(balls).map(ball => 
@@ -213,7 +218,7 @@ function initializeGame() {
                 // Create new ball with next sequential number
                 const newBall = createBall(nextNumber);
                 nextNumber++;  // Increment for next ball
-                document.body.appendChild(newBall);
+                gameArea.appendChild(newBall);
             }
         }
     });
