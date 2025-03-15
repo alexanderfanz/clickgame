@@ -2,6 +2,7 @@ const MAX_BALLS = 5;
 const BALL_SIZE = 60;
 let nextNumber = MAX_BALLS + 1;  // Track the next number to use
 let isFullScreen = false;
+const MAX_ATTEMPTS = 50;  // Maximum attempts to find non-overlapping position
 
 // Function to get root domain from current hostname
 function getRootDomain() {
@@ -29,6 +30,46 @@ function getRandomPosition() {
         x: Math.floor(Math.random() * maxX),
         y: Math.floor(Math.random() * maxY)
     };
+}
+
+function isOverlapping(position, existingBalls) {
+    // Check if a position overlaps with any existing balls
+    for (const ball of existingBalls) {
+        const ballRect = ball.getBoundingClientRect();
+        const ballX = ballRect.left;
+        const ballY = ballRect.top;
+
+        // Calculate distance between centers
+        const dx = position.x - ballX;
+        const dy = position.y - ballY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // If distance is less than ball diameter (with small buffer), they overlap
+        if (distance < BALL_SIZE * 1.2) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getNonOverlappingPosition() {
+    const existingBalls = document.querySelectorAll('.ball');
+    let attempts = 0;
+    let position;
+
+    do {
+        position = getRandomPosition();
+        attempts++;
+        
+        // If we can't find a non-overlapping position after MAX_ATTEMPTS,
+        // return the last attempted position
+        if (attempts >= MAX_ATTEMPTS) {
+            console.warn('Could not find non-overlapping position after', MAX_ATTEMPTS, 'attempts');
+            return position;
+        }
+    } while (isOverlapping(position, existingBalls));
+
+    return position;
 }
 
 function adjustBallPosition(ball) {
@@ -59,7 +100,7 @@ function createBall(number) {
     ball.textContent = number;
     ball.dataset.number = number;
     ball.style.backgroundColor = getRandomColor();
-    const position = getRandomPosition();
+    const position = getNonOverlappingPosition();
     ball.style.left = position.x + 'px';
     ball.style.top = position.y + 'px';
     return ball;
