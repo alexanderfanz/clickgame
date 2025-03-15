@@ -1,3 +1,4 @@
+const VERSION = '0.1.0';  // Semantic versioning (major.minor.patch)
 const MAX_BALLS = 5;
 const BALL_SIZE = 60;
 let nextNumber = MAX_BALLS + 1;  // Track the next number to use
@@ -179,6 +180,9 @@ document.addEventListener('msfullscreenchange', () => {
 });
 
 function initializeGame() {
+    // Log version information
+    console.log('Ball Clicking Game v' + VERSION);
+
     // Set home link URL
     const homeLink = document.getElementById('homeLink');
     homeLink.href = getRootDomain();
